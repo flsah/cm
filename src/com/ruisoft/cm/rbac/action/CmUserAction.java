@@ -13,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ruisoft.cm.rbac.dao.CmUserDAO;
-import com.ruisoft.cm.rbac.util.JSONMap;
 import com.ruisoft.cm.rbac.util.SysConstants;
 
 @Controller
@@ -67,16 +66,14 @@ public class CmUserAction extends BaseAction {
 		JSONObject user = (JSONObject) session.getAttribute(SysConstants.USER_INFO.toString());
 		
 		try {
-			JSONMap<String, String> userInfo = new JSONMap<String, String>(JSONMap.TYPE.OBJECT);
 			if (user == null) {
-				userInfo.put("status", "0");
+				user = new JSONObject();
+				user.put("status", "0");
 			} else {
-				userInfo.put("status", "1");
-				userInfo.put("account", user.getString("account"));
-				userInfo.put("name", user.getString("name"));			
+				user.put("status", "1");
 			}
 		
-			response(request, response, userInfo.toString());
+			response(request, response, user.toString());
 		} catch (Exception e) {
 			LOG.error("获取操作员信息时发生错误", e);
 		}

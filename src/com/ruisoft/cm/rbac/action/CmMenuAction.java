@@ -32,7 +32,7 @@ public class CmMenuAction extends BaseAction {
 		try {
 			String userId = ((JSONObject) session
 					.getAttribute(SysConstants.USER_INFO.toString()))
-					.getString("id");
+					.getString("uid");
 			response(request, response, cmMenuDAO.getByUser(userId));
 		} catch (Exception e) {
 			LOG.error("获取用户操作菜单发生错误", e);
