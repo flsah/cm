@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<bean id="dml" class="com.ruisoft.cm.rbac.util.DMLConfig">
+		<property name="select">
+			<map>
+				<entry key="user.login">
+					<bean class="com.ruisoft.cm.rbac.entity.QueryEntity">
+						<property name="sql">
+							<value>
+<![CDATA[SELECT ID,ACCOUNT,NAME,ORGID,STATUS FROM CM_USER WHERE ACCOUNT={uname} AND PASSWD={pwd:str}]]>
+							</value>
+						</property>
+					</bean>
+				</entry>
+				<entry key="menu.query">
+					<bean class="com.ruisoft.cm.rbac.entity.QueryEntity">
+						<property name="sql">
+							<value>
+<![CDATA[SELECT M.ID,M.HIGHER_ID PID,M.NAME TEXT,ICON_URI URL FROM CM_MENU M WHERE M.STATUS=1 AND M.ID!=1 ORDER BY HIGHER_ID,SEQ]]>
+							</value>
+						</property>
+					</bean>
+				</entry>
+				<entry key="dict.def.query">
+					<bean class="com.ruisoft.cm.rbac.entity.QueryEntity">
+						<property name="dmlType" value="cond" />
+						<property name="sql">
+							<value>
+<![CDATA[SELECT ID,NAME,CODE,STATUS,DESCRIPTION FROM CM_DICT_DEF]]>
+							</value>
+						</property>
+						<property name="conditions">
+							<map>
+								<entry key="name" value="str:like(lr):and" />
+								<entry key="code" value=":like(lr)" />
+								<entry key="status" value="int" />
+							</map>
+						</property>
+					</bean>
+				</entry>
+				<entry key="dict.item.query">
+					<bean class="com.ruisoft.cm.rbac.entity.QueryEntity">
+						<property name="sql">
+							<value>
+<![CDATA[SELECT ITEM.NAME,ITEM.VALUE,ITEM.SEQ,ITEM.STATUS FROM CM_DICT_ITEM ITEM INNER JOIN CM_DICT_DEF DEF ON ITEM.DEF_ID=DEF.ID AND DEF.CODE={d} ORDER BY SEQ]]>
+							</value>
+						</property>
+					</bean>
+				</entry>
+				<entry key="stock.picking.query">
+					<bean class="com.ruisoft.cm.rbac.entity.QueryEntity">
+						<property name="dmlType" value="cond" />
+						<property name="sql">
+							<value>
+<![CDATA[SELECT ID,CompanyID,DeptID,BusiOrgID,Code,Name,Type,MoveType,SendType,Origin,PurchaseID,SaleID,ProjectID,PartnerID,WarehoseID,PredDate,RecptINDate,QCDate,RecptOutDate,DealEndDate,State,InvoiceState,AutoPicking,BackOrderID,AccountDate,StockJournalID,MoveINUser,MoveOutUser,MoveDestined,CreateUser,CreateDate,WriteDate,WriteUser FROM StockPicking]]>
+							</value>
+						</property>
+						<property name="conditions">
+							<map>
+								<entry key="code" value="" />
+								<entry key="origin" value="" />
+								<entry key="partnerid" value=":like(lr)" />
+							</map>
+						</property>
+					</bean>
+				</entry>
+			</map>
+		</property>
+		<property name="add">
+			<map>
+				<entry key="dict.def.add">
+					<bean class="com.ruisoft.cm.rbac.entity.AddEntity">
+						<property name="sql">
+							<value>
+<![CDATA[INSERT INTO CM_DICT_DEF(NAME,CODE,STATUS,DESCRIPTION) VALUES({name},{code},{status:int},{desc})]]>
+							</value>
+						</property>
+					</bean>
+				</entry>
+				<entry key="dict.item.add">
+					<bean class="com.ruisoft.cm.rbac.entity.AddEntity">
+						<property name="sql">
+							<value>
+<![CDATA[INSERT INTO CM_DICT_ITEM(HIGHER_ID,DEF_ID,NAME,VALUE,SEQ,STATUS,DESCRIPTION) VALUES({pid:int},{did:int},{name},{val},{seq:int},{status:int},{desc})]]>
+							</value>
+						</property>
+					</bean>
+				</entry>
+			</map>	
+		</property>
+		<property name="update">
+			<map>
+				<entry key="dict.def.update">
+					<bean class="com.ruisoft.cm.rbac.entity.UpdateEntity">
+						<property name="sql">
+							<value>
+<![CDATA[UPDATE CM_DICT_DEF SET NAME={name},CODE={code},STATUS={status:int},DESCRIPTION={description} WHERE ID={id:int}]]>
+							</value>
+						</property>
+					</bean>
+				</entry>
+			</map>	
+		</property>
+		<property name="delete">
+			<map>
+				<entry key="dict.def.delete">
+					<bean class="com.ruisoft.cm.rbac.entity.DeleteEntity">
+						<property name="sql">
+							<value>
+<![CDATA[DELETE FROM CM_DICT_DEF WHERE ID={id:int}]]>
+							</value>
+						</property>
+					</bean>
+				</entry>
+				<entry key="dict.item.delete">
+					<bean class="com.ruisoft.cm.rbac.entity.DeleteEntity">
+						<property name="dmlType" value="cond" />
+						<property name="sql">
+							<value>
+<![CDATA[DELETE FROM CM_DICT_ITEM]]>
+							</value>
+						</property>
+						<property name="conditions">
+							<map>
+								<entry key="id" value="" />
+								<entry key="def_id" value="" />
+							</map>
+						</property>
+					</bean>
+				</entry>
+			</map>	
+		</property>
+	</bean>
+</beans>
