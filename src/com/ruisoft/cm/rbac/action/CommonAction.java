@@ -23,7 +23,7 @@ public class CommonAction extends BaseAction {
 	private static final Logger LOG = Logger.getLogger(CommonAction.class);
 	
 	@Resource
-	private BaseDAO baseDAO = null;
+	protected BaseDAO baseDAO = null;
 	
 	public void setBaseDAO(BaseDAO baseDAO) {
 		this.baseDAO = baseDAO;
@@ -201,5 +201,10 @@ public class CommonAction extends BaseAction {
 			}
 			reqData = null;
 		}
+	}
+	
+	@RequestMapping(params = "m=a_nk")
+	public void addWithoutKey(HttpServletRequest request, HttpServletResponse response) {
+		
 	}
 }

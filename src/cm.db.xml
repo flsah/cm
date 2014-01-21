@@ -14,7 +14,9 @@
 					<bean class="com.ruisoft.cm.rbac.entity.QueryEntity">
 						<property name="sql">
 							<value>
-<![CDATA[SELECT ID,ACCOUNT,NAME,ORGID,STATUS FROM CM_USER WHERE ACCOUNT={uname} AND PASSWD={pwd:str}]]>
+<![CDATA[SELECT U.ID UID,U.ACCOUNT,U.NAME UNAME,O.ID OID,O.NAME ONAME,
+CASE WHEN U.STATUS=1 AND O.STATUS=1 THEN 1 ELSE 0 END STATUS
+FROM CM_USER U,CM_ORG O WHERE U.ORGID=O.ID AND U.ACCOUNT={uname} AND U.PASSWD={pwd:str}]]>
 							</value>
 						</property>
 					</bean>
