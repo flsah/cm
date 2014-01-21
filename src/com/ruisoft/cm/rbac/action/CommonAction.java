@@ -108,6 +108,7 @@ public class CommonAction extends BaseAction {
 			} catch (IOException e) {
 				LOG.error("查询返回信息时发生错误", e);;
 			}
+			reqData = null;
 		}
 	}
 	
@@ -140,6 +141,7 @@ public class CommonAction extends BaseAction {
 			} catch (IOException e) {
 				LOG.error("插入返回信息时发生错误", e);
 			}
+			reqData = null;
 		}
 	}
 	
@@ -168,6 +170,7 @@ public class CommonAction extends BaseAction {
 			} catch (IOException e) {
 				LOG.error("更新返回信息时发生错误", e);
 			}
+			reqData = null;
 		}
 	}
 	
@@ -196,6 +199,7 @@ public class CommonAction extends BaseAction {
 			} catch (IOException e) {
 				LOG.error("删除返回信息时发生错误", e);
 			}
+			reqData = null;
 		}
 	}
 }
