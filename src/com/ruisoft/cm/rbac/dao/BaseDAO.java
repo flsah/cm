@@ -24,6 +24,7 @@ import com.ruisoft.cm.rbac.entity.DeleteEntity;
 import com.ruisoft.cm.rbac.entity.QueryEntity;
 import com.ruisoft.cm.rbac.entity.UpdateEntity;
 import com.ruisoft.cm.rbac.util.DMLConfig;
+import com.ruisoft.cm.rbac.util.KeyGenerator;
 
 public class BaseDAO {
 	private static final Logger LOG = Logger.getLogger(BaseDAO.class);
@@ -216,8 +217,15 @@ public class BaseDAO {
 		int i = 0;
 		String datatype = null;
 		for (String k : cond.keySet()) {
-			if (json.isNull(k) || "".equals(json.get(k)))
+			if (k.startsWith("#")) {
+				params[i++] = new KeyGenerator().getKeyByRule(k.substring(1));
 				continue;
+			}
+			
+			if (json.isNull(k)) {
+				i++;
+				continue;
+			}
 			
 			datatype = cond.get(k);
 			

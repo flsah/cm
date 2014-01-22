@@ -23,7 +23,9 @@ public class KeyGenerator {
 	
 	private static final String KEYGEN_ADD = "key.generator.add";
 	
-	private static final String KEYGEN_UPDATE = "key.generator.update";
+	private static final String KEYGEN_RESET = "key.generator.reset";
+	
+	private static final String KEYGEN_UPDATE_MAX = "key.generator.update_max";
 
 	@Resource
 	private BaseDAO baseDAO = null;
@@ -180,7 +182,8 @@ public class KeyGenerator {
 					}
 				}
 				if (val == null) {
-					val = String.valueOf(json.getInt("max_val") + 1);
+					val = String.valueOf(json.getInt("max_val") + entity.getStep());
+					updateMaxVal(keyId, orgId, entity.getStep());
 				}
 			}
 			return fillStr(val, entity.getFillChar(), len);
@@ -208,7 +211,7 @@ public class KeyGenerator {
 			values.put("new_circle", newCircle);
 			values.put("keyid", keyId);
 			values.put("orgid", orgId);
-			return (baseDAO.update(values, KEYGEN_UPDATE) > 0);
+			return (baseDAO.update(values, KEYGEN_RESET) > 0);
 		} catch (Exception e) {
 			LOG.error("重置计数周期发生错误", e);
 		}
@@ -246,6 +249,21 @@ public class KeyGenerator {
 		} catch (Exception e) {
 			LOG.error("新增主键生成器配置发生错误", e);
 		}
+		return false;
+	}
+	
+	private synchronized boolean updateMaxVal(String keyId, String orgId,
+			int step) {
+		try {
+			JSONObject values = new JSONObject();
+			values.put("incr", step);
+			values.put("keyid", keyId);
+			values.put("orgid", orgId);
+			return (baseDAO.update(values, KEYGEN_UPDATE_MAX) > 0);
+		} catch (Exception e) {
+			LOG.error("更新主键最大值发生错误", e);
+		}
+		
 		return false;
 	}
 }
