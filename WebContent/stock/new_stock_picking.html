@@ -74,7 +74,10 @@
 					};
 					return options;
 				}
-								
+				ajaxSubmit("/cm/rbac/cmUser.do?method=getUserInfo", null, function(data) {
+					$('#deptS').val(data['oname']);
+					$('#createUserS').val(data['uname']);
+				});
 				$("#pageloading").hide();
 			});
 			function queryProd() {}
@@ -104,7 +107,7 @@
 						<div class="label-div"><label>入库仓库</label></div>
 						<div class="in-div"><input type="text" id="warehouseS" ltype="text" class="diff" /></div>
 						<div class="label-div"><label>收货人</label></div>
-						<div class="in-div"><input type="text" id="moveInS" class="diff" /></div>
+						<div class="in-div"><input type="text" id="moveInS" class="liger-popupedit diff" /></div>
 					</div>
 					<div class="line-div" style="height:160px;">
 						<div class="label-div"><label>备注</label></div>
@@ -125,7 +128,7 @@
 						<div class="in-div"><input type="text" id="createDateS" ltype="text" class="readonly diff" readonly="readonly" /></div>
 					</div>
 					<div class="line-div" style="padding-top:13px;">
-						<input type="button" value="提交" style="margin-left:36%;" /> 
+						<input type="button" value="保存" style="margin-left:36%;" /> 
 						<input type="button" value="清空" />
 					</div>
 			    </form>

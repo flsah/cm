@@ -73,6 +73,15 @@ FROM CM_USER U,CM_ORG O WHERE U.ORGID=O.ID AND U.ACCOUNT={uname} AND U.PASSWD={p
 						</property>
 					</bean>
 				</entry>
+				<entry key="key.generator.query">
+					<bean class="com.ruisoft.cm.rbac.entity.QueryEntity">
+						<property name="sql">
+							<value>
+<![CDATA[SELECT KEY_ID,MAX_VAL,CIRCLE,ORG_ID,DESCRIPTION FROM CM_KEY_GENERATOR WHERE KEY_ID={keyid} ORG_ID={orgid:int}]]>
+							</value>
+						</property>
+					</bean>
+				</entry>
 			</map>
 		</property>
 		<property name="add">
@@ -95,6 +104,15 @@ FROM CM_USER U,CM_ORG O WHERE U.ORGID=O.ID AND U.ACCOUNT={uname} AND U.PASSWD={p
 						</property>
 					</bean>
 				</entry>
+				<entry key="key.generator.add">
+					<bean class="com.ruisoft.cm.rbac.entity.AddEntity">
+						<property name="sql">
+							<value>
+<![CDATA[INSERT INTO CM_KEY_GENERATOR(KEY_ID,MAX_VAL,CIRCLE,ORG_ID,DESCRIPTION) VALUES({keyid},{maxval:int},{circle},{orgid:int},{desc})]]>
+							</value>
+						</property>
+					</bean>
+				</entry>
 			</map>	
 		</property>
 		<property name="update">
@@ -104,6 +122,15 @@ FROM CM_USER U,CM_ORG O WHERE U.ORGID=O.ID AND U.ACCOUNT={uname} AND U.PASSWD={p
 						<property name="sql">
 							<value>
 <![CDATA[UPDATE CM_DICT_DEF SET NAME={name},CODE={code},STATUS={status:int},DESCRIPTION={description} WHERE ID={id:int}]]>
+							</value>
+						</property>
+					</bean>
+				</entry>
+				<entry key="key.generator.update">
+					<bean class="com.ruisoft.cm.rbac.entity.UpdateEntity">
+						<property name="sql">
+							<value>
+<![CDATA[UPDATE CM_KEY_GENERATOR SET MAX_VAL={maxval:int},CIRCLE={new_circle} WHERE KEY_ID={keyid} AND ORG_ID={orgid:int}]]>
 							</value>
 						</property>
 					</bean>
