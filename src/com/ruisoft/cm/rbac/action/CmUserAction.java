@@ -1,6 +1,8 @@
 package com.ruisoft.cm.rbac.action;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -51,6 +53,7 @@ public class CmUserAction extends BaseAction {
 				session.setAttribute(SysConstants.USER_INFO.toString(), user);
 				// 菜单项
 				// 权限信息
+				
 			}
 			response(request, response, ("{\"status\":\"1\",\"valid\":\"" + valid + "\"}"));
 		} catch (Exception e) {
@@ -71,6 +74,8 @@ public class CmUserAction extends BaseAction {
 				user.put("status", "0");
 			} else {
 				user.put("status", "1");
+				user.put("date",
+						new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
 			}
 		
 			response(request, response, user.toString());

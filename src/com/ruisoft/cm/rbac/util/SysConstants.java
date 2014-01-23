@@ -5,5 +5,6 @@ public enum SysConstants {
 	ORG_INFO,
 	MENU_INFO,
 	ROLE_INFO,
-	RESOURCE_INFO
+	RESOURCE_INFO,
+	SYS_DATE
 }

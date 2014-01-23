@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
@@ -40,6 +41,28 @@ public class BaseDAO {
 	
 	public void setTransactionManager(PlatformTransactionManager transactionManager) {
 		this.transactionManager = transactionManager;
+	}
+	
+	@Resource
+	protected HttpServletRequest request = null;
+	
+	public HttpServletRequest getRequest() {
+		return request;
+	}
+
+	public void setRequest(HttpServletRequest request) {
+		this.request = request;
+	}
+	
+	@Resource
+	protected KeyGenerator keyGenerator = null;
+
+	public KeyGenerator getKeyGenerator() {
+		return keyGenerator;
+	}
+
+	public void setKeyGenerator(KeyGenerator keyGenerator) {
+		this.keyGenerator = keyGenerator;
 	}
 
 	public List<JSONObject> query(JSONObject json, QueryEntity query)
@@ -216,32 +239,40 @@ public class BaseDAO {
 		Object[] params = new Object[cond.size()];
 		int i = 0;
 		String datatype = null;
+		Object val = null;
 		for (String k : cond.keySet()) {
-			if (k.startsWith("#")) {
-				params[i++] = new KeyGenerator().getKeyByRule(k.substring(1));
-				continue;
-			}
-			
-			if (json.isNull(k)) {
-				i++;
-				continue;
-			}
-			
 			datatype = cond.get(k);
 			
-			if ("str".equals(datatype))
-				params[i++] = json.getString(k);
+			if (k.startsWith("#"))
+				val = parseSharp(k.substring(1));
+			else if (json.isNull(k))
+				val = null;
+			else if ("str".equals(datatype))
+				val = json.getString(k);
 			else if ("int".equals(datatype))
-				params[i++] = json.getInt(k);
+				val = json.getInt(k);
 			else if ("double".equals(datatype))
-				params[i++] = json.getDouble(k);
+				val = json.getDouble(k);
 			else if ("long".equals(datatype))
-				params[i++] = json.getLong(k);
+				val = json.getLong(k);
 			else if ("bool".equals(datatype))
-				params[i++] = json.getBoolean(k);
+				val = json.getBoolean(k);
+			
+			params[i++] = val;
 		}
 
 		return params;
+	}
+	
+	private Object parseSharp(String key) {
+		if (key.equals("uuid")) {
+			return KeyGenerator.getUUID();
+		} else if (key.equals("uuid32")) {
+			return KeyGenerator.get32UUID();
+		} else {
+			// Éú³ÉÖ÷¼ü
+			return keyGenerator.getKeyByRule(key);
+		}
 	}
 	
 	protected DataSource getDataSource() {

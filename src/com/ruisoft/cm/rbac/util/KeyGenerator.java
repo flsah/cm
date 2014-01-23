@@ -89,7 +89,7 @@ public class KeyGenerator {
 			}
 		}
 		
-		return null;
+		return key.toString();
 	}
 	
 	private String invokeArg(String arg, String keyId) {
@@ -160,7 +160,7 @@ public class KeyGenerator {
 			String c = getCircleVal(circle);
 			if (keyDef.isEmpty()) {
 				// 首次获取，添加记录
-				val = "1";
+				val = String.valueOf(entity.getInit());
 				addNewKey(keyId, c);
 			} else {
 				json = keyDef.get(0);
@@ -178,7 +178,7 @@ public class KeyGenerator {
 					}
 					if (isReset) {
 						resetCircle(keyId, orgId, c);
-						val = "1";
+						val = String.valueOf(entity.getInit());
 					}
 				}
 				if (val == null) {
@@ -207,7 +207,7 @@ public class KeyGenerator {
 			String newCircle) {
 		try {
 			JSONObject values = new JSONObject();
-			values.put("maxval", 1);
+			values.put("maxval", keyConfig.get(keyId).getInit());
 			values.put("new_circle", newCircle);
 			values.put("keyid", keyId);
 			values.put("orgid", orgId);
@@ -237,7 +237,7 @@ public class KeyGenerator {
 		try {
 			JSONObject values = new JSONObject();
 			values.put("keyid", keyId);
-			values.put("maxval", 1);
+			values.put("maxval", entity.getInit());
 			values.put("circle", circleVal);
 			if (entity.isGroup())
 				values.put("orgid", getOrg());

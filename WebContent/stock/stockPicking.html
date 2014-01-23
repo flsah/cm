@@ -14,9 +14,6 @@
 		<script type="text/javascript">
 			var defGrid;
 			$(function(){
-				$("#layout_main").ligerLayout({
-                });
-
                	defGrid = $("#query_list").ligerGrid({
                     columns:[
 	                    {display:'入库单号',name:'code',width:120,minWidth:60},
@@ -43,17 +40,15 @@
 //                     onToFirst: toFirst,
 //                     onToLast: toLast,
 //                     onToNext: toNext,
-//                     onToPrev: toPrev,
-                    param_status:'rbac.status'
+//                     onToPrev: toPrev
 				});
-				defGrid.options.dataAction = 'server';
 				appendAddBtn(openDictDef, "添加入库单");
 				$("#pageloading").hide();
 			});
 	        function beginEdit(rowid) { 
 	        	defGrid.beginEdit(rowid);
 	        }
-	        function cancelEdit(rowid) { 
+	        function cancelEdit(rowid) {
 	        	defGrid.cancelEdit(rowid);
 	        }
 	        function endEdit(rowid) {

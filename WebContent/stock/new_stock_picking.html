@@ -76,11 +76,36 @@
 				}
 				ajaxSubmit("/cm/rbac/cmUser.do?method=getUserInfo", null, function(data) {
 					$('#deptS').val(data['oname']);
+					$('#deptCodeS').val(data['oid']);
 					$('#createUserS').val(data['uname']);
+					$('#createUserCodeS').val(data['uid']);
+					$("#createDateS").value(data['date']);
 				});
 				$("#pageloading").hide();
 			});
 			function queryProd() {}
+			function toAdd() {
+				var param = new Object();
+				param.company = "";
+				param.dept = $("#deptCodeS").val();
+				param.busiorg = "";
+				param.name = "";
+				param.type = "0";
+				param.origin = $("#originS").val();
+				param.partner = $("#partnerS").val();
+				param.preddate = $("#predDateS").val();
+				param.warehose = $("#warehouseS").val();
+				param.moveinuser = "1"; //$("#moveInS").val();
+				param.note = $("#noteS").val();
+				param.createuser = $("#createUserCodeS").val();
+				param.createdate = $("#createDateS").val();
+				var data = JSON.stringify(reqObj('a','stock.picking.add',JSON.stringify(param)));
+				ajaxSubmit("/cm/rbac/cm.do?m=c", data, function(data) {
+					$.ligerDialog.success('保存成功', '操作完成', function() {
+						
+					});
+				});
+			}
 	    </script>
 		<style type="text/css">
 		</style>
@@ -101,7 +126,7 @@
 						<div class="label-div"><label>供应商</label></div>
 						<div class="in-div"><input type="text" id="partnerS" ltype="text" class="diff" /></div>
 						<div class="label-div"> <label>预计到货日期</label></div>
-						<div class="in-div"><input type="text" id="preDateS" ltype="date" class="diff" /></div>
+						<div class="in-div"><input type="text" id="predDateS" ltype="date" class="diff" /></div>
 					</div>
                 	<div class="line-div">
 						<div class="label-div"><label>入库仓库</label></div>
@@ -112,23 +137,25 @@
 					<div class="line-div" style="height:160px;">
 						<div class="label-div"><label>备注</label></div>
 						<div class="in-div" style="width:72%;">
-							<textarea id="" cols="73" rows="7"></textarea>
+							<textarea id="" cols="73" rows="7" id="noteS"></textarea>
 						</div>
 					</div>
 					<div class="line-div">
 						<div class="label-div"><label>制单部门</label></div>
 						<div class="in-div"><input type="text" id="deptS" ltype="text" class="readonly diff" readonly="readonly" /></div>
+						<input type="hidden" id="deptCodeS" />
 					</div>
 					<div class="line-div">
 						<div class="label-div"><label>制单人</label></div>
 						<div class="in-div"><input type="text" id="createUserS" ltype="text" class="readonly diff" readonly="readonly" /></div>
+						<input type="hidden" id="createUserCodeS" />
 					</div>
 					<div class="line-div">
 						<div class="label-div"><label>制单日期</label></div>
 						<div class="in-div"><input type="text" id="createDateS" ltype="text" class="readonly diff" readonly="readonly" /></div>
 					</div>
 					<div class="line-div" style="padding-top:13px;">
-						<input type="button" value="保存" style="margin-left:36%;" /> 
+						<input type="button" value="保存" onclick="toAdd();" style="margin-left:36%;" /> 
 						<input type="button" value="清空" />
 					</div>
 			    </form>

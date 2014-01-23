@@ -30,4 +30,5 @@
 	
 	<import resource="/cm.rbac.xml"/>
 	<import resource="/cm.db.xml" />
+	<import resource="/cm.keygen.xml" />
 </beans>

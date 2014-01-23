@@ -77,7 +77,7 @@ FROM CM_USER U,CM_ORG O WHERE U.ORGID=O.ID AND U.ACCOUNT={uname} AND U.PASSWD={p
 					<bean class="com.ruisoft.cm.rbac.entity.QueryEntity">
 						<property name="sql">
 							<value>
-<![CDATA[SELECT KEY_ID,MAX_VAL,CIRCLE,ORG_ID,DESCRIPTION FROM CM_KEY_GENERATOR WHERE KEY_ID={keyid} ORG_ID={orgid:int}]]>
+<![CDATA[SELECT KEY_ID,MAX_VAL,CIRCLE,ORG_ID,DESCRIPTION FROM CM_KEY_GENERATOR WHERE KEY_ID={keyid} AND ORG_ID={orgid:int}]]>
 							</value>
 						</property>
 					</bean>
@@ -118,7 +118,7 @@ FROM CM_USER U,CM_ORG O WHERE U.ORGID=O.ID AND U.ACCOUNT={uname} AND U.PASSWD={p
 						<property name="sql">
 							<value>
 <![CDATA[INSERT INTO StockPicking(ID,CompanyID,DeptID,BusiOrgID,Code,Name,Type,MoveType,SendType,Origin,PurchaseID,SaleID,ProjectID,PartnerID,WarehoseID,predDate,RecptINDate,QCDate,RecptOutDate,DealEndDate,State,InvoiceState,AutoPicking,BackOrderID,AccountDate,StockJournalID,MoveINUser,MoveOutUser,MoveDestined,CreateUser,CreateDate,WriteDate,WriteUser)
-VALUES({#stock.picking.code},{company},{dept},{busiorg},{code},{name},{type},{movetype},{sendtype},{origin},{purchase},{sale},{project},{partner},{warehose},{preddate},{recptindate},{qcdate},{recptoutdate},{dealenddate},{state},{invoicestate},{autopicking},{backorder},{accountdate},{stockjournal},{moveinuser},{moveoutuser},{movedestined},{createuser},{createdate},{writedate},{writeuser})]]>
+VALUES({#uuid},{company},{dept},{busiorg},{#stock.picking.code},{name},{type},{movetype},{sendtype},{origin},{purchase},{sale},{project},{partner},{warehose},{preddate},{recptindate},{qcdate},{recptoutdate},{dealenddate},{state},{invoicestate},{autopicking},{backorder},{accountdate},{stockjournal},{moveinuser},{moveoutuser},{movedestined},{createuser},{createdate},{writedate},{writeuser})]]>
 							</value>
 						</property>
 					</bean>

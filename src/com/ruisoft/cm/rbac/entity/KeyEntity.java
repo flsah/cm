@@ -23,6 +23,9 @@ public class KeyEntity {
 	/** 分组计数  */
 	private boolean group = false;
 	
+	/** 初始计数值 */
+	private int init = 1;
+	
 	private String description = "";
 	
 	public String getRule() {
@@ -63,6 +66,14 @@ public class KeyEntity {
 
 	public void setGroup(boolean group) {
 		this.group = group;
+	}
+
+	public int getInit() {
+		return init;
+	}
+
+	public void setInit(int init) {
+		this.init = init;
 	}
 
 	public String getDescription() {
