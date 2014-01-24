@@ -9,7 +9,7 @@
 		<script src="./js/jquery.js" type="text/javascript"></script>
 		<script src="./ligerUI/js/ligerui.all.js" type="text/javascript"></script>
 		<script type="text/javascript">
-			var tab = null;
+			var tabManager = null;
 			var accordion = null;
 			var tree = null;
 			$(function(){
@@ -19,7 +19,7 @@
 			    $("#framecenter").ligerTab({height:height});  //Tab
 			    $("#accordion_left").ligerAccordion({height:height-24,speed:null});
 			
-			    tab = $("#framecenter").ligerGetTabManager();
+			    tabManager = $("#framecenter").ligerGetTabManager();
 			    accordion = $("#accordion_left").ligerGetAccordionManager();
 
 				var tree = $("#tree1").ligerTree({
@@ -62,12 +62,12 @@
 				}
 			});
 			function f_heightChanged(options) {
-			    if (tab) tab.addHeight(options.diff);
+			    if (tabManager) tabManager.addHeight(options.diff);
 			    if (accordion && options.middleHeight - 24 > 0)
 			        accordion.setHeight(options.middleHeight - 24);
 			}
 			function f_addTab(tabid,text, url) { 
-			    tab.addTabItem({ tabid : tabid,text: text, url: url });
+				tabManager.addTabItem({tabid:tabid, text:text, url:url});
 			}
 	    </script>
 		<style type="text/css">

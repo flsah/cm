@@ -8,12 +8,23 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.ruisoft.cm.rbac.util.JSONMap;
 import com.ruisoft.cm.rbac.util.JSONUtil;
 
 public abstract class BaseAction {
 	private static final Logger LOG = Logger.getLogger(BaseAction.class);
+	
+	protected HttpServletRequest request;
+	
+	protected HttpServletResponse response = null;
+
+	@ModelAttribute
+	protected void setContext(HttpServletRequest request, HttpServletResponse response) {
+		this.request = request;
+		this.response = response;
+	}
 	
 	protected final void response(HttpServletRequest request,
 			HttpServletResponse response, String json)

@@ -16,12 +16,12 @@
 			$(function(){
                	defGrid = $("#query_list").ligerGrid({
                     columns:[
-	                    {display:'入库单号',name:'code',width:120,minWidth:60},
-	                    {display:'采购单号',name:'origin',width:100},
-			            {display:'供应商',name:'partnerid'},
-			            {display:'预计到货日期',name:'preddate'},
-			            {display:'入库仓库',name:'warehoseid'},
-			            {display:'收货人',name:'moverinuser'}
+	                    {display:'入库单号',name:'code',width:130,minWidth:60},
+	                    {display:'采购单号',name:'origin',width:130},
+			            {display:'供应商',name:'partnerid',width:290,align:'left'},
+			            {display:'预计到货日期',name:'preddate',width:80},
+			            {display:'入库仓库',name:'warehoseid',width:290,align:'left'},
+			            {display:'收货人',name:'moveinuser',align:'left'}
                     ],
                     pageSize:20,
                     usePager: true,
@@ -35,14 +35,10 @@
                     enabledEdit:true,
                     clickToEdit:false,
                     onSelectRow:function(rowdata, rowindex){$("#txtrowindex").val(rowindex);},
-//                     onUnSelectRow:unselected,
                     onReload: toQuery,
-//                     onToFirst: toFirst,
-//                     onToLast: toLast,
-//                     onToNext: toNext,
-//                     onToPrev: toPrev
 				});
 				appendAddBtn(openDictDef, "添加入库单");
+				appendModifyBtn(function(){}, "修改入库单");
 				$("#pageloading").hide();
 			});
 	        function beginEdit(rowid) { 

@@ -56,7 +56,7 @@ function ajaxSubmit(url, data, onSuccess, onError, async) {
 			if (data['status'] === '0') {
 				var msg = data['msg'];
 				if (!msg)
-					msg = "abc";
+					msg = "您的登录状态已失效，请重新登录。";
 				alert(msg);
 				parent.location = "/cm/";
 				return;
@@ -246,6 +246,28 @@ function appendAddBtn(action, title) {
 	if (!title)
 		title = "新增";
 	appendBtnForGridToolbar("l-bar-btnadd", "l-icon-add", action, title);
+}
+/**
+ * 向Grid组件中的Toolbar中添加“修改”按钮
+ * 
+ * @param action Function 按钮的onclick事件
+ * @param title String 鼠标指向该按钮时的提示信息
+ */
+function appendModifyBtn(action, title) {
+	if (!title)
+		title = "修改";
+	appendBtnForGridToolbar("l-bar-btnedit", "l-icon-modify", action, title);
+}
+/**
+ * 向Grid组件中的Toolbar中添加“删除”按钮
+ * 
+ * @param action Function 按钮的onclick事件
+ * @param title String 鼠标指向该按钮时的提示信息
+ */
+function appendDeleteBtn(action, title) {
+	if (!title)
+		title = "删除";
+	appendBtnForGridToolbar("l-bar-btndel", "l-icon-delete", action, title);
 }
 $(function() {
 	selectInjector();

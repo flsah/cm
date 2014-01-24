@@ -61,7 +61,7 @@ FROM CM_USER U,CM_ORG O WHERE U.ORGID=O.ID AND U.ACCOUNT={uname} AND U.PASSWD={p
 						<property name="dmlType" value="cond" />
 						<property name="sql">
 							<value>
-<![CDATA[SELECT ID,CompanyID,DeptID,BusiOrgID,Code,Name,Type,MoveType,SendType,Origin,PurchaseID,SaleID,ProjectID,PartnerID,WarehoseID,PredDate,RecptINDate,QCDate,RecptOutDate,DealEndDate,State,InvoiceState,AutoPicking,BackOrderID,AccountDate,StockJournalID,MoveINUser,MoveOutUser,MoveDestined,CreateUser,CreateDate,WriteDate,WriteUser FROM StockPicking]]>
+<![CDATA[SELECT ID,CompanyID,DeptID,BusiOrgID,Code,Name,Type,MoveType,SendType,Origin,PurchaseID,SaleID,ProjectID,PartnerID,WarehoseID,PredDate,RecptINDate,QCDate,RecptOutDate,DealEndDate,State,InvoiceState,AutoPicking,BackOrderID,AccountDate,StockJournalID,MoveINUser,MoveOutUser,MoveDestined,CreateUser,CreateDate,WriteDate,WriteUser,Note FROM StockPicking]]>
 							</value>
 						</property>
 						<property name="conditions">
@@ -117,8 +117,8 @@ FROM CM_USER U,CM_ORG O WHERE U.ORGID=O.ID AND U.ACCOUNT={uname} AND U.PASSWD={p
 					<bean class="com.ruisoft.cm.rbac.entity.AddEntity">
 						<property name="sql">
 							<value>
-<![CDATA[INSERT INTO StockPicking(ID,CompanyID,DeptID,BusiOrgID,Code,Name,Type,MoveType,SendType,Origin,PurchaseID,SaleID,ProjectID,PartnerID,WarehoseID,predDate,RecptINDate,QCDate,RecptOutDate,DealEndDate,State,InvoiceState,AutoPicking,BackOrderID,AccountDate,StockJournalID,MoveINUser,MoveOutUser,MoveDestined,CreateUser,CreateDate,WriteDate,WriteUser)
-VALUES({#uuid},{company},{dept},{busiorg},{#stock.picking.code},{name},{type},{movetype},{sendtype},{origin},{purchase},{sale},{project},{partner},{warehose},{preddate},{recptindate},{qcdate},{recptoutdate},{dealenddate},{state},{invoicestate},{autopicking},{backorder},{accountdate},{stockjournal},{moveinuser},{moveoutuser},{movedestined},{createuser},{createdate},{writedate},{writeuser})]]>
+<![CDATA[INSERT INTO StockPicking(ID,CompanyID,DeptID,BusiOrgID,Code,Name,Type,MoveType,SendType,Origin,PurchaseID,SaleID,ProjectID,PartnerID,WarehoseID,predDate,RecptINDate,QCDate,RecptOutDate,DealEndDate,State,InvoiceState,AutoPicking,BackOrderID,AccountDate,StockJournalID,MoveINUser,MoveOutUser,MoveDestined,CreateUser,CreateDate,WriteDate,WriteUser,Note)
+VALUES({#uuid},{company},{dept},{busiorg},{#stock.picking.code},{name},{type},{movetype},{sendtype},{origin},{purchase},{sale},{project},{partner},{warehose},{preddate},{recptindate},{qcdate},{recptoutdate},{dealenddate},{state},{invoicestate},{autopicking},{backorder},{accountdate},{stockjournal},{moveinuser},{moveoutuser},{movedestined},{createuser},{createdate},{writedate},{writeuser},{note})]]>
 							</value>
 						</property>
 					</bean>

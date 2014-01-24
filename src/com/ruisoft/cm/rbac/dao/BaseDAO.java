@@ -331,12 +331,14 @@ public class BaseDAO {
 
 			ResultSetMetaData meta = rs.getMetaData();
 			int i = meta.getColumnCount();
-			String col = null;
+			String col = null, val = null;
 			JSONObject json = new JSONObject();
 			for (int j = 1; j <= i; j++) {
 				col = meta.getColumnLabel(j);
+				val = rs.getString(col);
+
 				try {
-					json.put(col.toLowerCase(), rs.getString(col));
+					json.put(col.toLowerCase(), (val == null ? "null" : val));
 				} catch (JSONException e) {
 					throw new SQLException(e);
 				}
@@ -350,3 +352,4 @@ public class BaseDAO {
 		}
 	}
 }
+

@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
@@ -34,25 +32,25 @@ public class CommonAction extends BaseAction {
 	private JSONObject reqData = null;
 	
 	@RequestMapping(params = "m=c")
-	public void dml(HttpServletRequest request, HttpServletResponse response) {
+	public void dml() {
 		try {
 			reqData = getReqData(request);
 			String type = reqData.getString("t");
 			if ("q".equals(type))
-				query(request, response);
+				query();
 			else if ("a".equals(type))
-				add(request, response);
+				add();
 			else if ("u".equals(type))
-				update(request, response);
+				update();
 			else if ("d".equals(type))
-				delete(request, response);
+				delete();
 		} catch (Exception e) {
 			LOG.error("Common DML Error!", e);
 		}
 	}
 	
 	@RequestMapping(params = "m=q")
-	public void query(HttpServletRequest request, HttpServletResponse response) {
+	public void query() {
 		JSONMap<String, Object> returnJson = new JSONMap<String, Object>(JSONMap.TYPE.OBJECT);
 		try {
 			if (reqData == null)
@@ -117,7 +115,7 @@ public class CommonAction extends BaseAction {
 	}
 	
 	@RequestMapping(params = "m=a")
-	public void add(HttpServletRequest request, HttpServletResponse response) {
+	public void add() {
 		JSONMap<String, Object> returnJson = new JSONMap<String, Object>(JSONMap.TYPE.OBJECT);
 		
 		try {
@@ -146,7 +144,7 @@ public class CommonAction extends BaseAction {
 	}
 	
 	@RequestMapping(params = "m=u")
-	public void update(HttpServletRequest request, HttpServletResponse response) {
+	public void update() {
 		JSONMap<String, Object> returnJson = new JSONMap<String, Object>(JSONMap.TYPE.OBJECT);
 		
 		try {
@@ -175,7 +173,7 @@ public class CommonAction extends BaseAction {
 	}
 	
 	@RequestMapping(params = "m=d")
-	public void delete(HttpServletRequest request, HttpServletResponse response) {
+	public void delete() {
 		JSONMap<String, Object> returnJson = new JSONMap<String, Object>(JSONMap.TYPE.OBJECT);
 		
 		try {
@@ -201,10 +199,5 @@ public class CommonAction extends BaseAction {
 			}
 			reqData = null;
 		}
-	}
-	
-	@RequestMapping(params = "m=a_nk")
-	public void addWithoutKey(HttpServletRequest request, HttpServletResponse response) {
-		
 	}
 }
