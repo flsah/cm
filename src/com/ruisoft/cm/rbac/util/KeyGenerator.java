@@ -19,13 +19,13 @@ import com.ruisoft.cm.rbac.entity.KeyEntity;
 public class KeyGenerator {
 	private static final Logger LOG = Logger.getLogger(KeyGenerator.class);
 	
-	private static final String KEYGEN_QUERY = "key.generator.query";
+	private static final String KEYGEN_QUERY = "rbac.select.key.generator.query";
 	
-	private static final String KEYGEN_ADD = "key.generator.add";
+	private static final String KEYGEN_ADD = "rbac.add.key.generator.add";
 	
-	private static final String KEYGEN_RESET = "key.generator.reset";
+	private static final String KEYGEN_RESET = "rbac.update.key.generator.reset";
 	
-	private static final String KEYGEN_UPDATE_MAX = "key.generator.update_max";
+	private static final String KEYGEN_UPDATE_MAX = "rbac.update.key.generator.update_max";
 
 	@Resource
 	private BaseDAO baseDAO = null;
