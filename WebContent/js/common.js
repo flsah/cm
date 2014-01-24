@@ -209,6 +209,15 @@ function selectInjector() {
 	});
 }
 /**
+ * 将查询结果线性Array对象转换为Tree型
+ * 
+ * @param data array 线性列表
+ * @param attr string 归属关系字段
+ */
+function toTree(data, attr) {
+	
+}
+/**
  * 向Grid组件中的Toolbar中添加按钮
  * 
  * @param divStyle String 按钮的上层Div元素的样式，该样式主要用于区别不同的按钮区域，可以不在style中定义

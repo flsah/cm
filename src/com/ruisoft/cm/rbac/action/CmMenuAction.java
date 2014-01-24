@@ -1,8 +1,6 @@
 package com.ruisoft.cm.rbac.action;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
@@ -26,14 +24,14 @@ public class CmMenuAction extends BaseAction {
 	}
 	
 	@RequestMapping(params = "method=init")
-	public String init(HttpServletRequest request, HttpServletResponse response) {
+	public String init() {
 		HttpSession session = request.getSession();
 		
 		try {
 			String userId = ((JSONObject) session
 					.getAttribute(SysConstants.USER_INFO.toString()))
 					.getString("uid");
-			response(request, response, cmMenuDAO.getByUser(userId));
+			response(cmMenuDAO.getByUser(userId));
 		} catch (Exception e) {
 			LOG.error("获取用户操作菜单发生错误", e);
 		}

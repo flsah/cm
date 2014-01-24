@@ -18,9 +18,9 @@
 					allowBottomResize:false
                 });
 				$("form").ligerForm();
-				$(".readonly").each(function(index) {
-					$(this).attr("style","width:178px;");
-				});
+// 				$(".readonly").each(function(index) {
+// 					$(this).attr("style","width:178px;");
+// 				});
 				$(".l-textarea").each(function(index){
 					$(this).removeClass("l-textarea");
 				});
@@ -30,10 +30,16 @@
 				    {text:'清空',click:resetArea,icon:'clear'},
 					{line:true}
 				]});
+				$("#moveInS").ligerComboBox({autocomplete: true});
 
                	pGrid = $("#p-div").ligerGrid({
                     columns:[
-	                    {display:'商品编号',name:'code',width:90,minWidth:60,editor:{type:'popup'}},
+	                    {display:'商品编号',name:'code',width:90,minWidth:60,editor:{type:'popup',condition: {
+							fields: [{ name: 'CompanyName', label: '客户' }]
+						},
+						grid: getGridOptions(true),
+						valueField: 'CustomerID',
+						textField: 'CustomerID'}},
 	                    {display:'品名',name:'origin',width:100},
 			            {display:'规格/型号',name:'partnerid',width:50},
 			            {display:'待入库数量',name:'preddate',align:'right',editor:{type:'text'}},
@@ -46,7 +52,7 @@
                     pageSize:20,
                     usePager: true,
                     width:'100%',
-                    height:'99%',
+                    height:'100%',
                     dataAction:'server',
                     checkbox:false,
                     rownumbers:false,
@@ -59,34 +65,10 @@
 				});
 				appendAddBtn(function(){
 					pGrid.addEditRow();
+					$(".l-grid2 .l-grid-body-inner").attr("style", "");
 				}, "添加商品明细");
 				appendModifyBtn(function(){}, "修改商品明细");
 				appendDeleteBtn(function(){}, "删除商品明细");
-				$("#moveInS").ligerPopupEdit({
-					condition: {
-						fields: [{ name: 'CompanyName', label: '客户' }]
-					},
-					grid: getGridOptions(true),
-					valueField: 'CustomerID',
-					textField: 'CustomerID'
-				});
-				function resetArea() {
-					toReset('#a_center input:not(.readonly),select,textarea');
-				}
-				function getGridOptions(checkbox) {
-					var options = {
-						columns: [{ display: '顾客', name: 'CustomerID', align: 'left', width: 100, minWidth: 60 },
-							{ display: '公司名', name: 'CompanyName', minWidth: 120, width: 100 },
-							{ display: '联系名', name: 'ContactName', minWidth: 140, width: 100 },
-							{ display: '电话', name: 'Phone', width: 100 },
-							{ display: '城市', name: 'City', width: 100 },
-							{ display: '国家', name: 'Country', width: 100 }
-						], switchPageSizeApplyComboBox: false,
-						pageSize: 10,
-						checkbox: checkbox
-					};
-					return options;
-				}
 				ajaxSubmit("/cm/rbac/cmUser.do?method=getUserInfo", null, function(data) {
 					$('#deptS').val(data['oname']);
 					$('#deptCodeS').val(data['oid']);
@@ -96,6 +78,23 @@
 				});
 				$("#pageloading").hide();
 			});
+			function resetArea() {
+				toReset('#a_center input:not(.readonly),select,textarea');
+			}
+			function getGridOptions(checkbox) {
+				var options = {
+					columns: [{display: '顾客', name: 'CustomerID', align: 'left', width: 100, minWidth: 60 },
+						{ display: '公司名', name: 'CompanyName', minWidth: 120, width: 100 },
+						{ display: '联系名', name: 'ContactName', minWidth: 140, width: 100 },
+						{ display: '电话', name: 'Phone', width: 100 },
+						{ display: '城市', name: 'City', width: 100 },
+						{ display: '国家', name: 'Country', width: 100 }
+					], switchPageSizeApplyComboBox: false,
+					pageSize: 10,
+					checkbox: checkbox
+				};
+				return options;
+			}
 			function queryProd() {}
 			function toAdd() {
 				var param = new Object();
@@ -112,7 +111,7 @@
 				param.note = $("#noteS").val();
 				param.createuser = $("#createUserCodeS").val();
 				param.createdate = $("#createDateS").val();
-				var data = JSON.stringify(reqObj('a','stock.picking.add',JSON.stringify(param)));
+				var data = JSON.stringify(reqObj('a','stock.add.picking.add',JSON.stringify(param)));
 				ajaxSubmit("/cm/rbac/cm.do?m=c", data, function(data) {
 					$.ligerDialog.success('保存成功', '操作完成', function() {
 						parent.tabManager.removeTabItem("new_stockp");
@@ -129,6 +128,7 @@
 		<div id="layout_main">
 			<div position="center" id="a_center" title="基本信息" style="overflow:auto;">
 				<div id="d-menu"></div>
+				<div style="height:8px;"></div>
 				<form name="basic-form" method="post" id="basic_form">
 					<div class="line-div">
 						<div class="label-div"><label>入库单号</label></div>
@@ -146,7 +146,7 @@
 						<div class="label-div"><label>入库仓库</label></div>
 						<div class="in-div"><input type="text" id="warehouseS" ltype="text" class="diff" /></div>
 						<div class="label-div"><label>收货人</label></div>
-						<div class="in-div"><input type="text" id="moveInS" class="liger-popupedit diff" /></div>
+						<div class="in-div"><input type="text" id="moveInS" class="liger-combobox diff" /></div>
 					</div>
 					<div class="line-div" style="height:76px;">
 						<div class="label-div"><label>备注</label></div>

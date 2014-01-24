@@ -12,8 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ruisoft.cm.rbac.dao.BaseDAO;
-import com.ruisoft.cm.rbac.util.DMLConfig;
 import com.ruisoft.cm.rbac.util.JSONMap;
+import com.ruisoft.cm.rbac.util.SysCache;
 
 @Controller
 @RequestMapping("/rbac/cm.do")
@@ -57,7 +57,7 @@ public class CommonAction extends BaseAction {
 				reqData = getReqData(request);
 			// 查询实体名称
 			String entityName = reqData.getString("en");
-			if (entityName == null || !DMLConfig.select.containsKey(entityName)) {
+			if (entityName == null || SysCache.get(entityName) == null) {
 				returnJson.put("status", "-1");
 				returnJson.put("msg", "没有指定查询实体名称");
 			} else {
@@ -102,7 +102,7 @@ public class CommonAction extends BaseAction {
 		} finally {
 			try {
 				LOG.debug(returnJson);
-				response(request, response, returnJson);
+				response(returnJson);
 			} catch (IOException e) {
 				LOG.error("查询返回信息时发生错误", e);;
 			}
@@ -123,7 +123,7 @@ public class CommonAction extends BaseAction {
 				reqData = getReqData(request);
 			// 查询实体名称
 			String entityName = reqData.getString("en");
-			if (entityName == null || !DMLConfig.add.containsKey(entityName)) {
+			if (entityName == null || SysCache.get(entityName) == null) {
 				returnJson.put("status", "-1");
 				returnJson.put("msg", "没有指定插入实体名称");
 			} else {
@@ -135,7 +135,7 @@ public class CommonAction extends BaseAction {
 			returnJson.put("status", "-2");
 		} finally {
 			try {
-				response(request, response, returnJson);
+				response(returnJson);
 			} catch (IOException e) {
 				LOG.error("插入返回信息时发生错误", e);
 			}
@@ -152,7 +152,7 @@ public class CommonAction extends BaseAction {
 				reqData = getReqData(request);
 			// 查询实体名称
 			String entityName = reqData.getString("en");
-			if (entityName == null || !DMLConfig.update.containsKey(entityName)) {
+			if (entityName == null || SysCache.get(entityName) == null) {
 				returnJson.put("status", "-1");
 				returnJson.put("msg", "没有指定更新实体名称");
 			} else {
@@ -164,7 +164,7 @@ public class CommonAction extends BaseAction {
 			returnJson.put("status", "-2");
 		} finally {
 			try {
-				response(request, response, returnJson);
+				response(returnJson);
 			} catch (IOException e) {
 				LOG.error("更新返回信息时发生错误", e);
 			}
@@ -181,7 +181,7 @@ public class CommonAction extends BaseAction {
 				reqData = getReqData(request);
 			// 查询实体名称
 			String entityName = reqData.getString("en");
-			if (entityName == null || !DMLConfig.delete.containsKey(entityName)) {
+			if (entityName == null || SysCache.get(entityName) == null) {
 				returnJson.put("status", "-1");
 				returnJson.put("msg", "没有指定删除实体名称");
 			} else {
@@ -193,7 +193,7 @@ public class CommonAction extends BaseAction {
 			returnJson.put("status", "-2");
 		} finally {
 			try {
-				response(request, response, returnJson);
+				response(returnJson);
 			} catch (IOException e) {
 				LOG.error("删除返回信息时发生错误", e);
 			}

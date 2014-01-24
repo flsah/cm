@@ -150,8 +150,8 @@ public class KeyGenerator {
 			String orgId = "";
 			if (entity.isGroup()) {
 				orgId = getOrg();
-				json.put("orgid", orgId);
 			}
+			json.put("orgid", orgId);
 			
 			List<JSONObject> keyDef = baseDAO.query(json, KEYGEN_QUERY);
 			

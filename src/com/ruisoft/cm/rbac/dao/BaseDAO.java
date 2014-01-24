@@ -24,8 +24,8 @@ import com.ruisoft.cm.rbac.entity.DMLEntity;
 import com.ruisoft.cm.rbac.entity.DeleteEntity;
 import com.ruisoft.cm.rbac.entity.QueryEntity;
 import com.ruisoft.cm.rbac.entity.UpdateEntity;
-import com.ruisoft.cm.rbac.util.DMLConfig;
 import com.ruisoft.cm.rbac.util.KeyGenerator;
+import com.ruisoft.cm.rbac.util.SysCache;
 
 public class BaseDAO {
 	private static final Logger LOG = Logger.getLogger(BaseDAO.class);
@@ -64,6 +64,11 @@ public class BaseDAO {
 	public void setKeyGenerator(KeyGenerator keyGenerator) {
 		this.keyGenerator = keyGenerator;
 	}
+	
+	private QueryEntity qEntity = null;
+	private AddEntity aEntity = null;
+	private UpdateEntity uEntity = null;
+	private DeleteEntity dEntity = null;
 
 	public List<JSONObject> query(JSONObject json, QueryEntity query)
 			throws JSONException {
@@ -82,7 +87,7 @@ public class BaseDAO {
 	
 	public List<JSONObject> query(JSONObject json, String id)
 			throws JSONException {
-		return query(json, DMLConfig.select.get(id));
+		return query(json, SysCache.get(id, qEntity));
 	}
 	
 	public List<JSONObject> query(String str, QueryEntity query)
@@ -138,13 +143,13 @@ public class BaseDAO {
 	
 	public List<JSONObject> queryForPage(String entityName, String qCond,
 			int page, int pageSize) throws Exception {
-		return queryForPage(DMLConfig.select.get(entityName), new JSONObject(
+		return queryForPage(SysCache.get(entityName, qEntity), new JSONObject(
 				qCond), page, pageSize);
 	}
 	
 	public List<JSONObject> queryForPage(String entityName, JSONObject qCond,
 			int page, int pageSize) throws Exception {
-		return queryForPage(DMLConfig.select.get(entityName), qCond, page, pageSize);
+		return queryForPage(SysCache.get(entityName, qEntity), qCond, page, pageSize);
 	}
 	
 	public int count(String sql) {
@@ -167,7 +172,7 @@ public class BaseDAO {
 	}
 	
 	public int add(JSONObject values, String id) throws Exception {
-		return add(values, DMLConfig.add.get(id));
+		return add(values, SysCache.get(id, aEntity));
 	}
 	
 	public int add(String values, AddEntity add) throws Exception {
@@ -175,7 +180,7 @@ public class BaseDAO {
 	}
 	
 	public int add(String values, String id) throws Exception {
-		return add(new JSONObject(values), DMLConfig.add.get(id));
+		return add(new JSONObject(values), SysCache.get(id, aEntity));
 	}
 	
 	public int update(JSONObject values, UpdateEntity update) throws Exception {
@@ -190,7 +195,7 @@ public class BaseDAO {
 	}
 	
 	public int update(JSONObject values, String id) throws Exception {
-		return update(values, DMLConfig.update.get(id));
+		return update(values, SysCache.get(id, uEntity));
 	}
 	
 	public int update(String values, UpdateEntity update) throws Exception {
@@ -198,7 +203,7 @@ public class BaseDAO {
 	}
 	
 	public int update(String values, String id) throws Exception {
-		return update(new JSONObject(values), DMLConfig.update.get(id));
+		return update(new JSONObject(values), SysCache.get(id, uEntity));
 	}
 	
 	public int delete(JSONObject values, DeleteEntity delete) throws Exception {
@@ -219,7 +224,7 @@ public class BaseDAO {
 	}
 	
 	public int delete(JSONObject values, String id) throws Exception {
-		return delete(values, DMLConfig.delete.get(id));
+		return delete(values, SysCache.get(id, dEntity));
 	}
 	
 	public int delete(String values, DeleteEntity delete) throws Exception {
@@ -227,7 +232,7 @@ public class BaseDAO {
 	}
 	
 	public int delete(String values, String id) throws Exception {
-		return delete(new JSONObject(values), DMLConfig.delete.get(id));
+		return delete(new JSONObject(values), SysCache.get(id, dEntity));
 	}
 	
 	protected Object[] getPreparedParam(JSONObject json, DMLEntity entity)

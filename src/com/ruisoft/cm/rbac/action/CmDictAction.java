@@ -16,25 +16,26 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ruisoft.cm.rbac.dao.BaseDAO;
-import com.ruisoft.cm.rbac.util.DMLConfig;
+import com.ruisoft.cm.rbac.entity.DMLEntity;
 import com.ruisoft.cm.rbac.util.JSONMap;
+import com.ruisoft.cm.rbac.util.SysCache;
 
 @Controller
 @RequestMapping("/rbac/cmDict.do")
 public class CmDictAction extends BaseAction {
 	private final static Logger LOG = Logger.getLogger(CmDictAction.class);
 	
-	private static final String SQL_DEF_QUERY = "dict.def.query";
+	private static final String SQL_DEF_QUERY = "rbac.select.dict.def.query";
 	
-	private static final String SQL_ITEM_QUERY = "dict.item.query";
+	private static final String SQL_ITEM_QUERY = "rbac.select.dict.item.query";
 	
-	private static final String SQL_DEF_ADD = "dict.def.add";
+	private static final String SQL_DEF_ADD = "rbac.add.dict.def.add";
 	
-	private static final String SQL_DEF_UPDATE = "dict.def.update";
+	private static final String SQL_DEF_UPDATE = "rbac.update.dict.def.update";
 	
-	private static final String SQL_DEF_DELETE = "dict.def.delete";
+	private static final String SQL_DEF_DELETE = "rbac.delete.dict.def.delete";
 	
-	private static final String SQL_ITEM_DELETE = "dict.item.delete";
+	private static final String SQL_ITEM_DELETE = "rbac.delete.dict.item.delete";
 	
 	private static final String RESPONSE_STR = "{\"Rows\":{dict},\"Total\":\"{total}\"}";
 	
@@ -46,7 +47,7 @@ public class CmDictAction extends BaseAction {
 	}
 
 	@RequestMapping(params = "m=q")
-	public String query(HttpServletRequest request, HttpServletResponse response) {
+	public String query() {
 		LOG.debug("查询字典定义");
 		LOG.debug(request.getQueryString());
 		try {
@@ -66,7 +67,7 @@ public class CmDictAction extends BaseAction {
 					new JSONArray(dictDefs).toString()).replaceFirst(
 					"\\{total\\}", c);
 			LOG.debug(dicts);
-			response(request, response, dicts);
+			response(dicts);
 		} catch (Exception e) {
 			LOG.error("查询字典定义发生错误", e);
 		}
@@ -79,8 +80,7 @@ public class CmDictAction extends BaseAction {
 	protected final static HashMap<String, String> DICT_ITEM_CACHE = new HashMap<String, String>();
 	
 	@RequestMapping(params = "m=gi")
-	public String getDictItem(HttpServletRequest request,
-			HttpServletResponse response) {
+	public String getDictItem() {
 		try {
 			// 请求JSON对象
 			JSONObject reqObj = getReqData(request);
@@ -88,7 +88,7 @@ public class CmDictAction extends BaseAction {
 			String dictName = reqObj.getString("d");
 
 			if (DICT_ITEM_CACHE.containsKey(dictName)) { // 查找缓存
-				response(request, response, DICT_ITEM_CACHE.get(dictName));
+				response(DICT_ITEM_CACHE.get(dictName));
 			} else {
 				List<JSONObject> items = baseDAO.query(reqObj, SQL_ITEM_QUERY);
 				JSONObject item = new JSONObject();
@@ -102,7 +102,7 @@ public class CmDictAction extends BaseAction {
 				if (!items.isEmpty())
 					DICT_ITEM_CACHE.put(dictName, param);
 				
-				response(request, response, param);
+				response(param);
 			}
 		} catch (Exception e) {
 			LOG.error("获取字典项定义发生错误", e);
@@ -111,13 +111,12 @@ public class CmDictAction extends BaseAction {
 	}
 	
 	@RequestMapping(params = "m=a")
-	public String addDictDef(HttpServletRequest request,
-			HttpServletResponse response) {
+	public String addDictDef() {
 		try {
 			JSONObject reqData = getReqData(request);
 			JSONMap<String, Object> json = new JSONMap<String, Object>(
 					JSONMap.TYPE.OBJECT);
-			int ex = baseDAO.count(DMLConfig.select.get(SQL_DEF_QUERY).getSql()
+			int ex = baseDAO.count(((DMLEntity) SysCache.get(SQL_DEF_QUERY)).getSql()
 					.concat(" WHERE CODE='").concat(reqData.getString("code"))
 					.concat("'"));
 			int r = 0xFF;
@@ -127,7 +126,7 @@ public class CmDictAction extends BaseAction {
 				r = baseDAO.add(reqData, SQL_DEF_ADD);
 			}
 			json.put("result", r);
-			response(request, response, json);
+			response(json);
 		} catch (Exception e) {
 			LOG.error("新增字典定义发生错误", e);
 		}
@@ -135,14 +134,13 @@ public class CmDictAction extends BaseAction {
 	}
 	
 	@RequestMapping(params = "m=u")
-	public String updateDictDef(HttpServletRequest request,
-			HttpServletResponse response) {
+	public String updateDictDef() {
 		try {
 			int r = baseDAO.update(getReqData(request), SQL_DEF_UPDATE);
 			JSONMap<String, Object> json = new JSONMap<String, Object>(
 					JSONMap.TYPE.OBJECT);
 			json.put("result", r);
-			response(request, response, json);
+			response(json);
 		} catch (Exception e) {
 			LOG.error("更新字典定义发生错误", e);
 		}
@@ -151,8 +149,7 @@ public class CmDictAction extends BaseAction {
 	
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	@RequestMapping(params = "m=d")
-	public String deleteDictDef(HttpServletRequest request,
-			HttpServletResponse response) {
+	public String deleteDictDef() {
 		try {
 			JSONObject cond = getReqData(request);
 			int r = baseDAO.delete("{\"def_id\":\"" + cond.getString("id") + "\"}", SQL_ITEM_DELETE);
@@ -160,7 +157,7 @@ public class CmDictAction extends BaseAction {
 			JSONMap<String, Object> json = new JSONMap<String, Object>(
 					JSONMap.TYPE.OBJECT);
 			json.put("result", r);
-			response(request, response, json);
+			response(json);
 		} catch (Exception e) {
 			LOG.error("删除字典定义发生错误", e);
 		}

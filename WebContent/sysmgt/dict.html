@@ -98,7 +98,7 @@
 				param.code = $("#dictCode").val();
 				param.status = $("#dictStatus").val();
 
-				var data = JSON.stringify(reqObj('q','dict.def.query',JSON.stringify(param),'l',true,page,pageSize));
+				var data = JSON.stringify(reqObj('q','rbac.select.dict.def.query',JSON.stringify(param),'l',true,page,pageSize));
 				ajaxSubmit("/cm/rbac/cm.do?m=c", data, function(data) {
 					defGrid.set({data: data['data']});
 				});

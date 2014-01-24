@@ -30,12 +30,12 @@ public class CmUserAction extends BaseAction {
 	}
 	
 	@RequestMapping(params = "method=login")
-	public String login(HttpServletRequest request, HttpServletResponse response) {
+	public String login() {
 		try {
 			JSONObject json = getReqData(request);
 			
 			if (json == null) {
-				response(request, response, "[{\"status\":\"1\",\"valid\":\"0\"}]");
+				response("[{\"status\":\"1\",\"valid\":\"0\"}]");
 				return null;
 			}
 			
@@ -55,7 +55,7 @@ public class CmUserAction extends BaseAction {
 				// 权限信息
 				
 			}
-			response(request, response, ("{\"status\":\"1\",\"valid\":\"" + valid + "\"}"));
+			response("{\"status\":\"1\",\"valid\":\"" + valid + "\"}");
 		} catch (Exception e) {
 			LOG.error("登录操作发生错误", e);
 		}
@@ -64,7 +64,7 @@ public class CmUserAction extends BaseAction {
 	}
 	
 	@RequestMapping(params = "method=getUserInfo")
-	public String getUserInfo(HttpServletRequest request, HttpServletResponse response) {
+	public String getUserInfo() {
 		HttpSession session = request.getSession();
 		JSONObject user = (JSONObject) session.getAttribute(SysConstants.USER_INFO.toString());
 		
@@ -78,7 +78,7 @@ public class CmUserAction extends BaseAction {
 						new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
 			}
 		
-			response(request, response, user.toString());
+			response(user.toString());
 		} catch (Exception e) {
 			LOG.error("获取操作员信息时发生错误", e);
 		}

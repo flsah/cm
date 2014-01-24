@@ -11,7 +11,7 @@ public class CmUserDAO extends BaseDAO {
 	public JSONObject login(JSONObject json) throws Exception {
 		LOG.debug("µÇÂ¼²Ù×÷£º" + json.getString("uname"));
 		
-		List<JSONObject> results = query(json, "user.login");
+		List<JSONObject> results = query(json, "rbac.select.user.login");
 		
 		if (results.isEmpty())
 			return null;

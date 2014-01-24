@@ -7,8 +7,8 @@ textarea,select{background:none repeat scroll 0 0 #FFFFFF;border:1px solid #AECA
 .txt-def{height:20px;line-height:20px;}
 .opt-link{color:#3947F2;text-decoration:none;}
 .opt-link:hover{color:#F86534;text-decoration:underline;}
-input.readonly {background:none repeat scroll 0 0 #EEEEEE !important;}
+/*input.readonly {background:none repeat scroll 0 0 #EEEEEE !important;}*/
 input.diff {height:20px;line-height:20px;}
 .line-div {width:98%;height:33px;position:relative;float:left;padding:3px 0 0 10px;}
-.label-div {width:14%;height:30px;position:relative;float:left;padding:3px 0 0 0;}
+.label-div {width:14%;height:30px;position:relative;float:left;padding:5px 0 0 0;}
 .in-div {width:36%;height:30px;position:relative;float:left;padding: 2px 0 0 0;}

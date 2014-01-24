@@ -66,7 +66,7 @@
 				param.code = $("#originQ").val();
 				param.status = $("#partnerQ").val();
 
-				var data = JSON.stringify(reqObj('q','stock.picking.query',JSON.stringify(param),'l',true,page,pageSize));
+				var data = JSON.stringify(reqObj('q','stock.select.picking.query',JSON.stringify(param),'l',true,page,pageSize));
 				ajaxSubmit("/cm/rbac/cm.do?m=c", data, function(data) {
 					defGrid.set({data: data['data']});
 				});

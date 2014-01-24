@@ -26,14 +26,12 @@ public abstract class BaseAction {
 		this.response = response;
 	}
 	
-	protected final void response(HttpServletRequest request,
-			HttpServletResponse response, String json)
+	protected final void response(String json)
 			throws IOException {
 		new JSONUtil().outputJSON(response, json);
 	}
 	
-	protected final void response(HttpServletRequest request,
-			HttpServletResponse response, JSONMap<?, ?> json)
+	protected final void response(JSONMap<? extends Object, ? extends Object> json)
 			throws IOException {
 		new JSONUtil().outputJSON(response, json);
 	}

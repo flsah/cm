@@ -1,10 +1,10 @@
 package com.ruisoft.cm.rbac.util;
 
 import java.util.Iterator;
-import java.util.TreeMap;
+import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
-public class JSONMap<K, V> extends TreeMap<K, V> {
+public class JSONMap<K, V> extends LinkedHashMap<K, V> {
 	private static final long serialVersionUID = 7357392663542964897L;
 
 	private Enum<?> t = null;
@@ -48,7 +48,7 @@ public class JSONMap<K, V> extends TreeMap<K, V> {
             K key = e.getKey();
             V value = e.getValue();
             
-            if (!((value instanceof JSONMap) && ((JSONMap) value).getType() == TYPE.OBJECT)) {
+            if (!((value instanceof JSONMap) && ((JSONMap<?, ?>) value).getType() == TYPE.OBJECT)) {
 	            sb.append(key == this ? "(this Map)" : "\"" + key + "\"");
 	            sb.append(':');
             }
