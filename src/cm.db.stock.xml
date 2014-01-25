@@ -15,7 +15,7 @@
 						<property name="dmlType" value="cond" />
 						<property name="sql">
 							<value>
-<![CDATA[SELECT ID,Company_ID,Dept_ID,BusiOrg_ID,Code,Name,Type,Move_Type,Send_Type,Origin,Purchase_ID,Sale_ID,Project_ID,Partner_ID,Warehose_ID,Pred_Date,Recpt_IN_Date,QC_Date,Recpt_Out_Date,Deal_End_Date,State,Invoice_State,Auto_Picking,Back_Order_ID,Account_Date,Stock_Journal_ID,Move_IN_User,Move_Out_User,Move_Destined,Note,CreateUser,CreateDate,WriteDate,WriteUser FROM StockPicking]]>
+<![CDATA[SELECT ID,Company_ID,Dept_ID,BusiOrg_ID,Code,Name,Type,Move_Type,Send_Type,Origin,Purchase_ID,Sale_ID,Project_ID,Partner_ID,Warehose_ID,Pred_Date,Recpt_IN_Date,QC_Date,Recpt_Out_Date,Deal_End_Date,State,Invoice_State,Auto_Picking,Back_Order_ID,Account_Date,Stock_Journal_ID,Move_IN_User,Move_Out_User,Move_Destined,Note,CreateUser,CreateDate,WriteDate,WriteUser FROM Stock_Picking]]>
 							</value>
 						</property>
 						<property name="conditions">

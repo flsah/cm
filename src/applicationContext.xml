@@ -29,5 +29,6 @@
 	<aop:aspectj-autoproxy />
 	
 	<import resource="/cm.*.xml"/>
+	<import resource="/core.*.xml"/>
 	<import resource="/sys.config.xml" />
 </beans>

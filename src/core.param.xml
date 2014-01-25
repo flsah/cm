@@ -7,12 +7,27 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
-	<bean class="com.ruisoft.cm.rbac.util.SysCache" lazy-init="false">
-		<property name="SYS_CACHE">
+	<bean id="paramGenerator" class="com.ruisoft.core.util.ParamGenerator" lazy-init="false">
+		<property name="config">
 			<map>
-				<entry key="rbac" value-ref="rbac" />
-				<entry key="stock" value-ref="stock" />
-				<entry key="param" value-ref="paramGenerator" />
+				<!-- 查询系统用户,可按机构代码查询 -->
+				<entry key="user">
+					<bean class="com.ruisoft.core.util.SQLParamEntity">
+						<property name="sql">
+							<bean class="com.ruisoft.cm.rbac.entity.QueryEntity">
+								<property name="dmlType" value="cond" />
+								<property name="sql">
+									<value><![CDATA[SELECT NAME,ID VALUE,ID SEQ,STATUS FROM CM_USER]]></value>
+								</property>
+								<property name="conditions">
+									<map>
+										<entry key="orgid" value="int" />
+									</map>
+								</property>
+							</bean>
+						</property>
+					</bean>
+				</entry>
 			</map>
 		</property>
 	</bean>
